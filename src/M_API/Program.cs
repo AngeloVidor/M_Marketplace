@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Infrastructure.Services;
+using Application.Services;
+using M_API.Domain.Repositories;
+using M_API.Application.UseCases;
 
 dotenv.net.DotEnv.Load();
 
@@ -24,7 +28,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IPendingRegistrationRepository, PendingRegistrationRepository>();
+builder.Services.AddScoped<IActivationTokenRepository, ActivationTokenRepository>();
 
+builder.Services.AddScoped<ActivateUserUseCase>();
+builder.Services.AddScoped<RegisterPendingUserUseCase>();
 builder.Services.AddScoped<CreateUserUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<LoginUseCase>();
@@ -38,6 +46,20 @@ builder.Services.Configure<JwtSettings>(options =>
         Environment.GetEnvironmentVariable("JWT_DURATION_IN_MINUTES")!
     );
 });
+
+var smtpSettings = new SmtpSettings
+{
+    Host = Environment.GetEnvironmentVariable("SMTP_HOST")!,
+    Port = int.Parse(Environment.GetEnvironmentVariable("SMTP_PORT")!),
+    Username = Environment.GetEnvironmentVariable("SMTP_USER")!,
+    Password = Environment.GetEnvironmentVariable("SMTP_PASS")!,
+    From = Environment.GetEnvironmentVariable("SMTP_FROM")!,
+    EnableSsl = true
+};
+
+builder.Services.AddSingleton(smtpSettings);
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+
 
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
