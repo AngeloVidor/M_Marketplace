@@ -23,10 +23,10 @@ namespace Application.UseCases
             var user = await _userRepository.GetByEmailAsync(dto.Email);
 
             if (user is null || !user.Password.Verify(dto.Password))
-                throw new DomainException("Credenciais inválidas.");
+                throw new DomainException("Invalid credentials.");
 
             if (!user.IsActive)
-                throw new DomainException("Usuário inativo.");
+                throw new DomainException("Inactive user.");
 
             var claims = new JwtUserClaimsDto
             {
@@ -37,7 +37,6 @@ namespace Application.UseCases
             };
 
             return _tokenGenerator.Generate(claims);
-
         }
     }
 }
