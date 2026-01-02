@@ -19,7 +19,8 @@ namespace Application.UseCases
             var user = new User(
                 dto.Username,
                 new Email(dto.Email),
-                PasswordHash.Create(dto.Password)
+                PasswordHash.Create(dto.Password),
+                dto.Role
             );
 
             await _repository.AddAsync(user);

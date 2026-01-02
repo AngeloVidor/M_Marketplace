@@ -2,6 +2,7 @@ using Application.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.ValueObjects;
+using M_API.Domain.ValueObjects;
 
 namespace Application.UseCases
 {
@@ -22,6 +23,7 @@ namespace Application.UseCases
                 new Money(dto.Price),
                 new Stock(dto.Stock),
                 dto.OwnerId
+                
             );
 
             await _repository.AddAsync(product);

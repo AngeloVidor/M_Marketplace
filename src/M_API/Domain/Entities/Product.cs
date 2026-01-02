@@ -15,6 +15,8 @@ namespace Domain.Entities
 
         public bool IsAvailable => Stock.Quantity > 0;
 
+        private Product() { }
+
         public Product(string name, string description, Money price, Stock stock, Guid ownerId)
         {
             Id = Guid.NewGuid();

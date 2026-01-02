@@ -7,6 +7,8 @@ namespace Domain.ValueObjects
     {
         public string Value { get; }
 
+        private PasswordHash() { }
+
         private PasswordHash(string hash)
         {
             Value = hash;
