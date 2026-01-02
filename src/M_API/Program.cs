@@ -12,6 +12,7 @@ using Infrastructure.Services;
 using Application.Services;
 using M_API.Domain.Repositories;
 using M_API.Application.UseCases;
+using Microsoft.OpenApi.Models;
 
 dotenv.net.DotEnv.Load();
 
@@ -19,8 +20,40 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API V1", Version = "v1" });
 
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter the JWT token in the format: Bearer {token}"
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+
+    var securityRequirement = new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new string[] {}
+        }
+    };
+
+
+    c.AddSecurityRequirement(securityRequirement);
+});
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -30,7 +63,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPendingRegistrationRepository, PendingRegistrationRepository>();
 builder.Services.AddScoped<IActivationTokenRepository, ActivationTokenRepository>();
+builder.Services.AddScoped<ICustomerProfileRepository, CustomerProfileRepository>();
 
+builder.Services.AddScoped<CreateCustomerProfileUseCase>();
 builder.Services.AddScoped<ActivateUserUseCase>();
 builder.Services.AddScoped<RegisterPendingUserUseCase>();
 builder.Services.AddScoped<CreateUserUseCase>();
@@ -103,6 +138,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
+app.UseMiddleware<JwtMiddleware>();
+
+
 app.UseAuthorization();
 
 app.MapControllers();
