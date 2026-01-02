@@ -140,3 +140,5 @@ C:\Users\angel\Desktop\M_Marketplace\src\M_API\obj\Debug\net8.0\refint\M_API.dll
 C:\Users\angel\Desktop\M_Marketplace\src\M_API\obj\Debug\net8.0\M_API.pdb
 C:\Users\angel\Desktop\M_Marketplace\src\M_API\obj\Debug\net8.0\M_API.genruntimeconfig.cache
 C:\Users\angel\Desktop\M_Marketplace\src\M_API\obj\Debug\net8.0\ref\M_API.dll
+C:\Users\angel\Desktop\M_Marketplace\src\M_API\bin\Debug\net8.0\dotenv.net.dll
+C:\Users\angel\Desktop\M_Marketplace\src\M_API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

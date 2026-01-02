@@ -1,15 +1,20 @@
 using Application.UseCases;
+using Application.Security;
 using Domain.Repositories;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+dotenv.net.DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -22,13 +27,48 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddScoped<CreateUserUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
-//builder.Services.AddScoped<LoginUseCase>();
+builder.Services.AddScoped<LoginUseCase>();
 
-//builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.Configure<JwtSettings>(options =>
+{
+    options.SecretKey = Environment.GetEnvironmentVariable("JWT_KEY")!;
+    options.Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER")!;
+    options.Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")!;
+    options.ExpirationMinutes = int.Parse(
+        Environment.GetEnvironmentVariable("JWT_DURATION_IN_MINUTES")!
+    );
+});
+
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+        ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(
+                Environment.GetEnvironmentVariable("JWT_KEY")!
+            )
+        )
+    };
+});
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -38,11 +78,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
