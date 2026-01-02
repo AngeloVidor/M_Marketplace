@@ -17,11 +17,12 @@ public class CustomerProfilesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Customer")]
     public async Task<IActionResult> Create([FromBody] CreateCustomerProfileDto dto)
     {
         var userId = ClaimsHelper.GetUserId(User);
-        var profileDto = dto with { UserId = userId }; 
-        
+        var profileDto = dto with { UserId = userId };
+
         await _createProfile.ExecuteAsync(profileDto);
 
         return Ok(new { message = "Customer profile created successfully." });

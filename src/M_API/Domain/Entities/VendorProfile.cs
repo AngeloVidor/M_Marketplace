@@ -1,23 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain.ValueObjects;
+using M_API.Domain.ValueObjects;
 
-namespace M_API.Domain.Entities
+namespace Domain.Entities
 {
     public class VendorProfile
     {
         public Guid Id { get; private set; }
         public Guid UserId { get; private set; }
-        public string StoreName { get; private set; }
+
+        public FullName OwnerName { get; private set; }
+        public CompanyName CompanyName { get; private set; }
+        public Cnpj Cnpj { get; private set; }
+        public Address Address { get; private set; }
+        public Phone Phone { get; private set; }
 
         protected VendorProfile() { }
 
-        public VendorProfile(Guid userId, string storeName)
+        public VendorProfile(Guid userId, FullName ownerName, CompanyName companyName, Cnpj cnpj, Address address, Phone phone)
         {
             Id = Guid.NewGuid();
             UserId = userId;
-            StoreName = storeName;
+            OwnerName = ownerName;
+            CompanyName = companyName;
+            Cnpj = cnpj;
+            Address = address;
+            Phone = phone;
+        }
+
+        public void UpdateProfile(FullName ownerName, CompanyName companyName, Cnpj cnpj, Address address, Phone phone)
+        {
+            OwnerName = ownerName;
+            CompanyName = companyName;
+            Cnpj = cnpj;
+            Address = address;
+            Phone = phone;
         }
     }
 }
