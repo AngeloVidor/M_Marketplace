@@ -1,17 +1,24 @@
 using Application.DTOs;
+using Application.Services;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.ValueObjects;
+using M_API.Application.DTOs;
+using M_API.Domain.Repositories;
 
 namespace Application.UseCases
 {
     public class CreateUserUseCase
     {
         private readonly IUserRepository _repository;
+        private readonly IActivationTokenRepository _tokens;
+        private readonly IEmailSender _emailSender;
 
-        public CreateUserUseCase(IUserRepository repository)
+        public CreateUserUseCase(IUserRepository repository, IActivationTokenRepository tokens, IEmailSender emailSender)
         {
             _repository = repository;
+            _tokens = tokens;
+            _emailSender = emailSender;
         }
 
         public async Task ExecuteAsync(CreateUserDto dto)
@@ -24,6 +31,17 @@ namespace Application.UseCases
             );
 
             await _repository.AddAsync(user);
+            var token = new ActivationToken(user.Id);
+
+            await _tokens.AddAsync(token);
+
+            await _repository.SaveAsync();
+
+            await _emailSender.SendAsync(new EmailMessage(
+                user.Email.Value,
+                "Activate your account",
+                $"Your activation code is: <b>{token.Token}</b>"
+            ));
         }
     }
 }

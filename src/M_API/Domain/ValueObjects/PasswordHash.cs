@@ -5,9 +5,9 @@ namespace Domain.ValueObjects
 {
     public sealed class PasswordHash
     {
-        public string Value { get; }
+        public string Value { get; private set; }
 
-        private PasswordHash() { }
+        protected  PasswordHash() { }
 
         private PasswordHash(string hash)
         {

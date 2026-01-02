@@ -14,22 +14,26 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
-        {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
         public async Task AddAsync(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _context.Users.AddAsync(user);
         }
 
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(x => x.Email.Value == email);
+                .FirstOrDefaultAsync(u => u.Email.Value == email);
         }
 
+        public async Task<User?> GetByIdAsync(Guid id)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
