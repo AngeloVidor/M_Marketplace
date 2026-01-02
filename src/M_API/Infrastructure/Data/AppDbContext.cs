@@ -8,7 +8,9 @@ namespace Infrastructure.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<PendingRegistration> PendingRegistrations => Set<PendingRegistration>();
-        public DbSet<ActivationToken> ActivationTokens => Set < ActivationToken>();
+        public DbSet<ActivationToken> ActivationTokens => Set<ActivationToken>();
+        public DbSet<CustomerProfile> CustomerProfiles => Set<CustomerProfile>();
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }

@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace M_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260102200459_Costumer")]
+    partial class Costumer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace M_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerProfiles", (string)null);
+                    b.ToTable("CustomerProfiles");
                 });
 
             modelBuilder.Entity("Domain.Entities.PendingRegistration", b =>
@@ -111,47 +114,16 @@ namespace M_API.Migrations
 
             modelBuilder.Entity("Domain.Entities.CustomerProfile", b =>
                 {
-                    b.OwnsOne("Domain.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("CustomerProfileId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("City")
+                            b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("City");
-
-                            b1.Property<string>("Complement")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Country");
-
-                            b1.Property<string>("Neighborhood")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("State");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Street");
-
-                            b1.Property<string>("ZipCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("ZipCode");
+                                .HasMaxLength(250)
+                                .HasColumnType("nvarchar(250)")
+                                .HasColumnName("Address");
 
                             b1.HasKey("CustomerProfileId");
 
@@ -166,15 +138,11 @@ namespace M_API.Migrations
                             b1.Property<Guid>("CustomerProfileId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("FirstName")
+                            b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("FirstName");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("LastName");
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
+                                .HasColumnName("FullName");
 
                             b1.HasKey("CustomerProfileId");
 
@@ -189,9 +157,10 @@ namespace M_API.Migrations
                             b1.Property<Guid>("CustomerProfileId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("Number")
+                            b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
                                 .HasColumnName("Phone");
 
                             b1.HasKey("CustomerProfileId");
