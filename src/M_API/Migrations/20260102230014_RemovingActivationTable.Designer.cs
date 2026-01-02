@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace M_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260102230014_RemovingActivationTable")]
+    partial class RemovingActivationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,20 +110,6 @@ namespace M_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Domain.Entities.VendorProfile", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("VendorProfiles");
                 });
 
             modelBuilder.Entity("Domain.Entities.CustomerProfile", b =>
@@ -388,154 +377,6 @@ namespace M_API.Migrations
                         .IsRequired();
 
                     b.Navigation("Password")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.VendorProfile", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjects.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("VendorProfileUserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("City");
-
-                            b1.Property<string>("Complement")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Complement");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Country");
-
-                            b1.Property<string>("Neighborhood")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Neighborhood");
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Number");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("State");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Street");
-
-                            b1.Property<string>("ZipCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("ZipCode");
-
-                            b1.HasKey("VendorProfileUserId");
-
-                            b1.ToTable("VendorProfiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VendorProfileUserId");
-                        });
-
-                    b.OwnsOne("Domain.ValueObjects.FullName", "OwnerName", b1 =>
-                        {
-                            b1.Property<Guid>("VendorProfileUserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("OwnerFirstName");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("OwnerLastName");
-
-                            b1.HasKey("VendorProfileUserId");
-
-                            b1.ToTable("VendorProfiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VendorProfileUserId");
-                        });
-
-                    b.OwnsOne("Phone", "Phone", b1 =>
-                        {
-                            b1.Property<Guid>("VendorProfileUserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Phone");
-
-                            b1.HasKey("VendorProfileUserId");
-
-                            b1.ToTable("VendorProfiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VendorProfileUserId");
-                        });
-
-                    b.OwnsOne("Domain.ValueObjects.CompanyName", "CompanyName", b1 =>
-                        {
-                            b1.Property<Guid>("VendorProfileUserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("CompanyName");
-
-                            b1.HasKey("VendorProfileUserId");
-
-                            b1.ToTable("VendorProfiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VendorProfileUserId");
-                        });
-
-                    b.OwnsOne("M_API.Domain.ValueObjects.Cnpj", "Cnpj", b1 =>
-                        {
-                            b1.Property<Guid>("VendorProfileUserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Cnpj");
-
-                            b1.HasKey("VendorProfileUserId");
-
-                            b1.ToTable("VendorProfiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VendorProfileUserId");
-                        });
-
-                    b.Navigation("Address")
-                        .IsRequired();
-
-                    b.Navigation("Cnpj")
-                        .IsRequired();
-
-                    b.Navigation("CompanyName")
-                        .IsRequired();
-
-                    b.Navigation("OwnerName")
-                        .IsRequired();
-
-                    b.Navigation("Phone")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
