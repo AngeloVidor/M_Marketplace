@@ -34,5 +34,19 @@ namespace Domain.Entities
             IsActive = true;
             CreatedAt = DateTime.UtcNow;
         }
+
+        public void DecreaseStock(int quantity)
+        {
+            if (quantity <= 0) throw new ArgumentException("Quantity must be positive");
+            if (quantity > Stock) throw new InvalidOperationException("Not enough stock");
+            Stock -= quantity;
+        }
+
+        public void IncreaseStock(int quantity)
+        {
+            if (quantity <= 0) throw new ArgumentException("Quantity must be positive");
+            Stock += quantity;
+        }
+
     }
 }
