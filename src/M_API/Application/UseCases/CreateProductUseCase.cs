@@ -1,32 +1,39 @@
 using Application.DTOs;
 using Domain.Entities;
 using Domain.Repositories;
-using Domain.ValueObjects;
-using M_API.Domain.ValueObjects;
 
 namespace Application.UseCases
 {
     public class CreateProductUseCase
     {
-        private readonly IProductRepository _repository;
+        private readonly IProductRepository _productRepository;
+        private readonly IVendorProfileRepository _vendorRepository;
 
-        public CreateProductUseCase(IProductRepository repository)
+        public CreateProductUseCase(
+            IProductRepository productRepository,
+            IVendorProfileRepository vendorRepository)
         {
-            _repository = repository;
+            _productRepository = productRepository;
+            _vendorRepository = vendorRepository;
         }
 
-        public async Task ExecuteAsync(CreateProductDto dto)
+        public async Task ExecuteAsync(Guid userId, CreateProductDto dto)
         {
+            var vendor = await _vendorRepository.GetByUserIdAsync(userId);
+            if (vendor == null)
+                throw new Exception("Vendor profile not found.");
+
             var product = new Product(
+                vendor.Id,
                 dto.Name,
                 dto.Description,
-                new Money(dto.Price),
-                new Stock(dto.Stock),
-                dto.OwnerId
-                
+                dto.Price,
+                dto.Stock,
+                dto.Category
             );
 
-            await _repository.AddAsync(product);
+            await _productRepository.AddAsync(product);
+            await _productRepository.SaveChangesAsync();
         }
     }
 }

@@ -1,3 +1,5 @@
+using Domain.Entities;
+
 namespace Application.DTOs
 {
     public record CreateProductDto(
@@ -5,6 +7,6 @@ namespace Application.DTOs
         string Description,
         decimal Price,
         int Stock,
-        Guid OwnerId
+        ProductCategory Category
     );
 }
