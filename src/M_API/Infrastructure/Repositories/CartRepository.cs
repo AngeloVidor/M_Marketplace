@@ -24,7 +24,11 @@ namespace M_API.Infrastructure.Repositories
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId && !c.IsConverted);
         }
-
+        public void AddItem(CartItem item)
+        {
+            _context.CartItems.Add(item);
+        }
+        
         public async Task AddAsync(Cart cart)
             => await _context.Carts.AddAsync(cart);
 

@@ -1,28 +1,30 @@
-namespace Domain.Entities
+using Domain.Entities;
+using Domain.Enums;
+
+public class Order
 {
-    public class Order
+    public Guid Id { get; private set; }
+    public Guid UserId { get; private set; }
+    public decimal Total { get; private set; }
+    public OrderStatus Status { get; private set; }
+    public List<OrderItem> Items { get; private set; } = new();
+
+    protected Order() { }
+
+    public Order(Guid userId)
     {
-        public Guid Id { get; private set; }
-        public Guid UserId { get; private set; }
-        public decimal TotalAmount { get; private set; }
-        public string Status { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+        Id = Guid.NewGuid();
+        UserId = userId;
+        Status = OrderStatus.PendingPayment;
+    }
 
-        public ICollection<OrderItem> Items { get; private set; } = new List<OrderItem>();
+    public void CalculateTotal()
+    {
+        Total = Items.Sum(i => i.Subtotal);
+    }
 
-        protected Order() { }
-
-        public Order(Guid userId)
-        {
-            Id = Guid.NewGuid();
-            UserId = userId;
-            Status = "Pending";
-            CreatedAt = DateTime.UtcNow;
-        }
-
-        public void CalculateTotal()
-        {
-            TotalAmount = Items.Sum(i => i.Subtotal);
-        }
+    public void MarkAsPaid()
+    {
+        Status = OrderStatus.Paid;
     }
 }

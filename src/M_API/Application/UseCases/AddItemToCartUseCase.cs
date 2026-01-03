@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
@@ -22,7 +21,6 @@ namespace M_API.Application.UseCases
         public async Task ExecuteAsync(Guid userId, Guid productId, int quantity)
         {
             var cart = await _cartRepo.GetActiveByUserIdAsync(userId);
-
             var isNewCart = false;
 
             if (cart == null)
@@ -34,20 +32,30 @@ namespace M_API.Application.UseCases
             var product = await _productRepo.GetByIdAsync(productId)
                           ?? throw new Exception("Product not found");
 
-            cart.Items.Add(new CartItem(
-                cart.Id,
-                product.Id,
-                product.Name,
-                product.Price,
-                quantity
-            ));
+            var existingItem = cart.Items.FirstOrDefault(i => i.ProductId == productId);
+            if (existingItem != null)
+            {
+                existingItem.IncreaseQuantity(quantity);
+            }
+            else
+            {
+                var newItem = new CartItem(
+                    cart.Id,
+                    product.Id,
+                    product.Name,
+                    product.Price,
+                    quantity
+                );
+
+                cart.Items.Add(newItem);
+
+                _cartRepo.AddItem(newItem);
+            }
 
             if (isNewCart)
                 await _cartRepo.AddAsync(cart);
 
             await _cartRepo.SaveChangesAsync();
-
         }
     }
-
 }

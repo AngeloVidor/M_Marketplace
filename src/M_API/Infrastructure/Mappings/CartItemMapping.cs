@@ -18,6 +18,10 @@ namespace M_API.Infrastructure.Mappings
                    .HasPrecision(14, 2)
                    .IsRequired();
 
+            builder.Property(i => i.UnitPrice)
+                   .HasPrecision(14, 2)
+                   .IsRequired();
+
             builder.Property(i => i.Quantity).IsRequired();
         }
     }

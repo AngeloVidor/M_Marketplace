@@ -27,5 +27,12 @@ namespace Domain.Entities
         {
             Quantity = quantity;
         }
+
+        public void IncreaseQuantity(int amount)
+        {
+            if (amount <= 0) throw new ArgumentException("Amount must be positive");
+            Quantity += amount;
+        }
+
     }
 }

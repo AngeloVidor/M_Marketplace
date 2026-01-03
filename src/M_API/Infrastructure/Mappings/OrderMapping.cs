@@ -18,7 +18,7 @@ namespace M_API.Infrastructure.Mappings
                    .WithOne()
                    .HasForeignKey(i => i.OrderId);
 
-            builder.Property(o => o.TotalAmount)
+            builder.Property(o => o.Total)
                    .HasPrecision(14, 2);
         }
     }
