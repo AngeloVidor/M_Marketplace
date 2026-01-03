@@ -1,6 +1,7 @@
 using Stripe.Checkout;
 using Domain.Repositories;
 using Domain.Enums;
+using Application.Security;
 
 public class CreateCheckoutSessionUseCase
 {
@@ -9,7 +10,8 @@ public class CreateCheckoutSessionUseCase
 
     public CreateCheckoutSessionUseCase(
         IOrderRepository orderRepo,
-        IProductStripeRepository productStripeRepo)
+        IProductStripeRepository productStripeRepo
+       )
     {
         _orderRepo = orderRepo;
         _productStripeRepo = productStripeRepo;
@@ -46,7 +48,9 @@ public class CreateCheckoutSessionUseCase
             CancelUrl = "http://localhost:5222/cancel",
             Metadata = new Dictionary<string, string>
             {
-                { "orderId", order.Id.ToString() }
+                { "orderId", order.Id.ToString() },
+                { "userId", order.UserId.ToString() }
+
             }
         };
 

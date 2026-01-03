@@ -68,6 +68,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductStripeRepository, ProductStripeRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
 
 builder.Services.AddScoped<CreateCheckoutSessionUseCase>();
 builder.Services.AddScoped<ConfirmOrderPaymentUseCase>();
@@ -79,6 +80,7 @@ builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
 builder.Services.AddScoped<AddItemToCartUseCase>();
 builder.Services.AddScoped<CreateOrderFromCartUseCase>();
+
 
 builder.Services.Configure<JwtSettings>(options =>
 {
