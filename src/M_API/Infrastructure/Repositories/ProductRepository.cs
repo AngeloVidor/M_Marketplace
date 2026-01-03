@@ -18,6 +18,11 @@ namespace Infrastructure.Repositories
             await _context.Products.AddAsync(product);
         }
 
+        public async Task<Product?> GetByIdAsync(Guid id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

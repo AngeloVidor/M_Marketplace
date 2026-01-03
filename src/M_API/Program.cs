@@ -13,6 +13,7 @@ using Application.Services;
 using M_API.Domain.Repositories;
 using M_API.Application.UseCases;
 using Microsoft.OpenApi.Models;
+using M_API.Infrastructure.Repositories;
 
 dotenv.net.DotEnv.Load();
 
@@ -65,6 +66,8 @@ builder.Services.AddScoped<ICustomerProfileRepository, CustomerProfileRepository
 builder.Services.AddScoped<IVendorProfileRepository, VendorProfileRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductStripeRepository, ProductStripeRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<CreateCustomerProfileUseCase>();
@@ -72,6 +75,8 @@ builder.Services.AddScoped<ActivateUserUseCase>();
 builder.Services.AddScoped<RegisterPendingUserUseCase>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
+builder.Services.AddScoped<AddItemToCartUseCase>();
+builder.Services.AddScoped<CreateOrderFromCartUseCase>();
 
 builder.Services.Configure<JwtSettings>(options =>
 {
