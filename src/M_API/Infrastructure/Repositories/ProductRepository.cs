@@ -1,7 +1,6 @@
 using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -14,14 +13,13 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Product?> GetByIdAsync(Guid id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
         public async Task AddAsync(Product product)
         {
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
     }

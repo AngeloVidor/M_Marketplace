@@ -1,47 +1,38 @@
-using Domain.ValueObjects;
-using Domain.Exceptions;
-
 namespace Domain.Entities
 {
     public class Product
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
+        public Guid VendorProfileId { get; private set; }
+
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public Money Price { get; private set; }
-        public Stock Stock { get; private set; }
-        public Guid OwnerId { get; }
-        public DateTime CreatedAt { get; }
-
-        public bool IsAvailable => Stock.Quantity > 0;
+        public decimal Price { get; private set; }
+        public int Stock { get; private set; }
+        public ProductCategory Category { get; private set; }
+        public bool IsActive { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         private Product() { }
 
-        public Product(string name, string description, Money price, Stock stock, Guid ownerId)
+        public Product(
+            Guid vendorProfileId,
+            string name,
+            string description,
+            decimal price,
+            int stock,
+            ProductCategory category
+        )
         {
             Id = Guid.NewGuid();
-
-            Name = name ?? throw new DomainException("Invalid name.");
-            Description = description ?? string.Empty;
-            Price = price ?? throw new DomainException("Invalid price.");
-            Stock = stock ?? throw new DomainException("Invalid stock.");
-            OwnerId = ownerId;
+            VendorProfileId = vendorProfileId;
+            Name = name;
+            Description = description;
+            Price = price;
+            Stock = stock;
+            Category = category;
+            IsActive = true;
             CreatedAt = DateTime.UtcNow;
-        }
-
-        public void ChangePrice(Money newPrice)
-        {
-            Price = newPrice ?? throw new DomainException("Invalid price.");
-        }
-
-        public void AddStock(int amount)
-        {
-            Stock = Stock.Add(amount);
-        }
-
-        public void RemoveStock(int amount)
-        {
-            Stock = Stock.Remove(amount);
         }
     }
 }

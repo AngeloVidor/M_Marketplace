@@ -60,20 +60,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPendingRegistrationRepository, PendingRegistrationRepository>();
-//builder.Services.AddScoped<IActivationTokenRepository, ActivationTokenRepository>();
 builder.Services.AddScoped<ICustomerProfileRepository, CustomerProfileRepository>();
 builder.Services.AddScoped<IVendorProfileRepository, VendorProfileRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<CreateCustomerProfileUseCase>();
 builder.Services.AddScoped<ActivateUserUseCase>();
 builder.Services.AddScoped<RegisterPendingUserUseCase>();
-//builder.Services.AddScoped<CreateUserUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
-
 
 builder.Services.Configure<JwtSettings>(options =>
 {
@@ -143,7 +141,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseMiddleware<JwtMiddleware>();
-
 
 app.UseAuthorization();
 
