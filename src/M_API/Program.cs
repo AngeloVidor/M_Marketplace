@@ -64,12 +64,12 @@ builder.Services.AddScoped<IPendingRegistrationRepository, PendingRegistrationRe
 builder.Services.AddScoped<ICustomerProfileRepository, CustomerProfileRepository>();
 builder.Services.AddScoped<IVendorProfileRepository, VendorProfileRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductStripeRepository, ProductStripeRepository>();
 
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<CreateCustomerProfileUseCase>();
 builder.Services.AddScoped<ActivateUserUseCase>();
 builder.Services.AddScoped<RegisterPendingUserUseCase>();
-builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
 
@@ -96,6 +96,19 @@ var smtpSettings = new SmtpSettings
 builder.Services.AddSingleton(smtpSettings);
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
+var stripeSettings = new Infrastructure.Payments.Stripe.StripeSettings
+{
+    PublicKey = Environment.GetEnvironmentVariable("STRIPE_PUBLIC_KEY")!,
+    SecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY")!
+};
+
+Stripe.StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+
+builder.Services.AddSingleton(stripeSettings);
+
+builder.Services.AddScoped<IStripeProductService, StripeProductService>();
+builder.Services.AddSingleton(new Stripe.ProductService());
+builder.Services.AddSingleton(new Stripe.PriceService());
 
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
