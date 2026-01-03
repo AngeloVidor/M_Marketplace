@@ -14,6 +14,7 @@ using M_API.Domain.Repositories;
 using M_API.Application.UseCases;
 using Microsoft.OpenApi.Models;
 using M_API.Infrastructure.Repositories;
+using M_API.Application.Services;
 
 dotenv.net.DotEnv.Load();
 
@@ -52,13 +53,14 @@ builder.Services.AddSwaggerGen(c =>
         }
     };
 
-
     c.AddSecurityRequirement(securityRequirement);
 });
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddScoped<IVendorProfileService, VendorProfileService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPendingRegistrationRepository, PendingRegistrationRepository>();
@@ -70,6 +72,7 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
 
+builder.Services.AddScoped<GetSellerSalesUseCase>();
 builder.Services.AddScoped<CreateCheckoutSessionUseCase>();
 builder.Services.AddScoped<ConfirmOrderPaymentUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
@@ -80,7 +83,6 @@ builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
 builder.Services.AddScoped<AddItemToCartUseCase>();
 builder.Services.AddScoped<CreateOrderFromCartUseCase>();
-
 
 builder.Services.Configure<JwtSettings>(options =>
 {

@@ -34,6 +34,14 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Order>> GetAllPaidOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.Items)
+                .Where(o => o.Status == Domain.Enums.OrderStatus.Paid)
+                .ToListAsync();
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
