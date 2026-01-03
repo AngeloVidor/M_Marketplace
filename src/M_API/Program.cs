@@ -69,6 +69,8 @@ builder.Services.AddScoped<IProductStripeRepository, ProductStripeRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+builder.Services.AddScoped<CreateCheckoutSessionUseCase>();
+builder.Services.AddScoped<ConfirmOrderPaymentUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<CreateCustomerProfileUseCase>();
 builder.Services.AddScoped<ActivateUserUseCase>();
@@ -104,7 +106,8 @@ builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 var stripeSettings = new Infrastructure.Payments.Stripe.StripeSettings
 {
     PublicKey = Environment.GetEnvironmentVariable("STRIPE_PUBLIC_KEY")!,
-    SecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY")!
+    SecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY")!,
+    WebhookSecret = Environment.GetEnvironmentVariable("WEBHOOK_SECRET")!
 };
 
 Stripe.StripeConfiguration.ApiKey = stripeSettings.SecretKey;

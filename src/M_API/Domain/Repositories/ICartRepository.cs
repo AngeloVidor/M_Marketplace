@@ -11,6 +11,7 @@ namespace M_API.Domain.Repositories
         Task<Cart?> GetActiveByUserIdAsync(Guid userId);
         Task AddAsync(Cart cart);
         Task SaveChangesAsync();
+        void AddItem(CartItem item);
     }
 
 }

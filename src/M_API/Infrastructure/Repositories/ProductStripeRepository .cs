@@ -23,5 +23,11 @@ namespace Infrastructure.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<ProductStripe?> GetByProductIdAsync(Guid productId)
+        {
+            return await _context.ProductStripes
+                .FirstOrDefaultAsync(ps => ps.ProductId == productId);
+        }
     }
 }

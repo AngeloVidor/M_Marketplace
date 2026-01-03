@@ -19,6 +19,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost("items")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Customer")]
     public async Task<IActionResult> AddItem([FromBody] AddCartItemDto dto)
     {
         var userId = ClaimsHelper.GetUserId(User);
