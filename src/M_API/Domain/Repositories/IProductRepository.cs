@@ -6,5 +6,6 @@ namespace Domain.Repositories
     {
         Task AddAsync(Product product);
         Task SaveChangesAsync();
+        Task<Product?> GetByIdAsync(Guid id);
     }
 }

@@ -11,6 +11,11 @@ namespace Infrastructure.Data
         public DbSet<CustomerProfile> CustomerProfiles => Set<CustomerProfile>();
         public DbSet<VendorProfile> VendorProfiles => Set<VendorProfile>();
         public DbSet<ProductStripe> ProductStripes => Set<ProductStripe>();
+        public DbSet<Cart> Carts => Set<Cart>();
+        public DbSet<CartItem> CartItems => Set<CartItem>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+        
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
