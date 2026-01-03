@@ -8,6 +8,7 @@ public class Order
     public decimal Total { get; private set; }
     public OrderStatus Status { get; private set; }
     public List<OrderItem> Items { get; private set; } = new();
+    public DateTime CreatedAt { get; private set; }
 
     protected Order() { }
 
@@ -16,6 +17,7 @@ public class Order
         Id = Guid.NewGuid();
         UserId = userId;
         Status = OrderStatus.PendingPayment;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public void CalculateTotal()

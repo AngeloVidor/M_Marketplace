@@ -8,5 +8,6 @@ namespace Domain.Repositories
         Task<Order?> GetByIdAsync(Guid id);
         Task<IEnumerable<Order>> GetByUserIdAsync(Guid userId);
         Task SaveChangesAsync();
+        Task<IEnumerable<Order>> GetAllPaidOrdersAsync();
     }
 }
