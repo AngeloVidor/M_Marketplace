@@ -23,9 +23,9 @@ public class VendorProfilesController : ControllerBase
         var userId = ClaimsHelper.GetUserId(User);
 
         var dtoWithUser = dto with { UserId = userId };
-        await _createVendor.ExecuteAsync(dtoWithUser);
+        var response = await _createVendor.ExecuteAsync(dtoWithUser);
 
-        return Ok(new { message = "Vendor profile created successfully." });
+        return Ok(new { message = "Vendor profile created successfully.", onboardingUrl = response });
     }
 
 }

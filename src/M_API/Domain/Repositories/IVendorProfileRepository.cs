@@ -7,5 +7,8 @@ namespace Domain.Repositories
         Task AddAsync(VendorProfile vendor);
         Task SaveChangesAsync();
         Task<VendorProfile?> GetByUserIdAsync(Guid userId);
+        Task<VendorProfile?> GetByStripeAccountIdAsync(string stripeAccountId);
+        Task<List<VendorProfile>> GetAllWithStripeAccountsAsync();
+
     }
 }
