@@ -2,6 +2,7 @@ using Application.DTOs;
 using Application.Services;
 using Domain.Entities;
 using Domain.Repositories;
+using M_API.Domain.ValueObjects;
 
 namespace Application.UseCases
 {
@@ -29,6 +30,9 @@ namespace Application.UseCases
             var vendor = await _vendorRepository.GetByUserIdAsync(userId);
             if (vendor == null)
                 throw new Exception("Vendor profile not found.");
+
+            if (vendor.StripeStatus != VendorStripeStatus.Active)
+                throw new Exception("Vendor Stripe account is not active.");
 
             var product = new Product(
                 vendor.Id,

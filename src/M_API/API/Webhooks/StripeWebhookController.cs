@@ -81,9 +81,7 @@ namespace M_API.API.Controllers
                         else
                             vendor.AttachStripeAccount(vendor.StripeAccountId!);
 
-
                         await _vendorRepository.SaveChangesAsync();
-
                     }
                     else
                     {
