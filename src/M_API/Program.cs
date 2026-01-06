@@ -71,6 +71,7 @@ builder.Services.AddScoped<IProductStripeRepository, ProductStripeRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
+builder.Services.AddScoped<IStripeConnectService, StripeConnectService>();
 
 builder.Services.AddScoped<GetSellerSalesUseCase>();
 builder.Services.AddScoped<CreateCheckoutSessionUseCase>();
@@ -117,6 +118,14 @@ var stripeSettings = new Infrastructure.Payments.Stripe.StripeSettings
 Stripe.StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 
 builder.Services.AddSingleton(stripeSettings);
+
+builder.Services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+    logging.AddDebug();
+    logging.SetMinimumLevel(LogLevel.Debug);
+});
 
 builder.Services.AddScoped<IStripeProductService, StripeProductService>();
 builder.Services.AddSingleton(new Stripe.ProductService());
@@ -172,3 +181,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

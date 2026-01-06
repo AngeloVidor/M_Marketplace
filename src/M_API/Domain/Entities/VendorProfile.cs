@@ -14,6 +14,9 @@ namespace Domain.Entities
         public Address Address { get; private set; }
         public Phone Phone { get; private set; }
 
+        public string? StripeAccountId { get; private set; }
+        public VendorStripeStatus StripeStatus { get; private set; }
+
         protected VendorProfile() { }
 
         public VendorProfile(Guid userId, FullName ownerName, CompanyName companyName, Cnpj cnpj, Address address, Phone phone)
@@ -34,6 +37,17 @@ namespace Domain.Entities
             Cnpj = cnpj;
             Address = address;
             Phone = phone;
+        }
+
+        public void AttachStripeAccount(string stripeAccountId)
+        {
+            StripeAccountId = stripeAccountId;
+            StripeStatus = VendorStripeStatus.Pending;
+        }
+
+        public void ActivateStripe()
+        {
+            StripeStatus = VendorStripeStatus.Active;
         }
     }
 }

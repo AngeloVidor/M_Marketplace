@@ -33,5 +33,21 @@ namespace Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(v => v.UserId == userId);
         }
+
+        public async Task<VendorProfile?> GetByStripeAccountIdAsync(string stripeAccountId)
+        {
+            return await _context.VendorProfiles
+                .FirstOrDefaultAsync(v =>
+                    v.StripeAccountId != null &&
+                    v.StripeAccountId.ToLower() == stripeAccountId.ToLower());
+        }
+
+        public async Task<List<VendorProfile>> GetAllWithStripeAccountsAsync()
+        {
+            return await _context.VendorProfiles
+                .Where(v => v.StripeAccountId != null)
+                .ToListAsync();
+        }
+
     }
 }
