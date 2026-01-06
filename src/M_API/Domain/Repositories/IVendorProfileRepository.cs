@@ -9,6 +9,11 @@ namespace Domain.Repositories
         Task<VendorProfile?> GetByUserIdAsync(Guid userId);
         Task<VendorProfile?> GetByStripeAccountIdAsync(string stripeAccountId);
         Task<List<VendorProfile>> GetAllWithStripeAccountsAsync();
+        Task UpdateAsync(VendorProfile vendor);
+        Task DeleteAsync(VendorProfile vendor);
+        Task<List<VendorProfile>> GetAllAsync();
+        Task<VendorProfile?> GetByIdAsync(Guid id);
+
 
     }
 }
