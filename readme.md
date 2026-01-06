@@ -3,7 +3,7 @@
 
 ---
 
-## ✨ Features 🌟
+## Features 
 
 ✅ **Comprehensive E-commerce Platform** – Built for both B2B and B2C markets
 ✅ **Role-Based Access Control** – Secure vendor, customer, and admin experiences
@@ -16,7 +16,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core Technologies
 - **Language**: C# (.NET 8.0)
@@ -203,7 +203,7 @@ Example for SQL Server:
 }
 ```
 
-Example for PostgreSQL:
+Example for SQL Server:
 ```json
 {
   "ConnectionStrings": {
@@ -212,10 +212,3 @@ Example for PostgreSQL:
 }
 ```
 
-
-
-
-Ready to dive in? Start by exploring the codebase, submitting issues, or contributing new features. Together, we can build a robust and scalable e-commerce platform!
-
-👉 **Star this repository** to show your support and stay updated on the latest developments!
-```
