@@ -49,5 +49,26 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task UpdateAsync(VendorProfile vendor)
+        {
+            _context.VendorProfiles.Update(vendor);
+        }
+
+        public async Task DeleteAsync(VendorProfile vendor)
+        {
+            _context.VendorProfiles.Remove(vendor);
+        }
+
+        public async Task<List<VendorProfile>> GetAllAsync()
+        {
+            return await _context.VendorProfiles.ToListAsync();
+        }
+
+        public async Task<VendorProfile?> GetByIdAsync(Guid id)
+        {
+            return await _context.VendorProfiles.FindAsync(id);
+        }
+
+
     }
 }

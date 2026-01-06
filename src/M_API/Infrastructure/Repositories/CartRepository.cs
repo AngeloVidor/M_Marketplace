@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain.Entities;
 using Infrastructure.Data;
-using M_API.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using M_API.Domain.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace M_API.Infrastructure.Repositories
 {
@@ -24,16 +22,23 @@ namespace M_API.Infrastructure.Repositories
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId && !c.IsConverted);
         }
-        public void AddItem(CartItem item)
+
+        public void AddItem(CartItem item) => _context.CartItems.Add(item);
+
+        public void RemoveItem(CartItem item) => _context.CartItems.Remove(item);
+
+        public async Task<CartItem?> GetItemAsync(Guid cartId, Guid productId)
         {
-            _context.CartItems.Add(item);
+            return await _context.CartItems
+                .FirstOrDefaultAsync(i => i.CartId == cartId && i.ProductId == productId);
         }
-        
-        public async Task AddAsync(Cart cart)
-            => await _context.Carts.AddAsync(cart);
 
-        public async Task SaveChangesAsync()
-            => await _context.SaveChangesAsync();
+        public async Task AddAsync(Cart cart) => await _context.Carts.AddAsync(cart);
+
+        public async Task UpdateAsync(Cart cart) => _context.Carts.Update(cart);
+
+        public async Task DeleteAsync(Cart cart) => _context.Carts.Remove(cart);
+
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
-
 }

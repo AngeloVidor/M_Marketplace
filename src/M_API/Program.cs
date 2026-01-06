@@ -84,6 +84,17 @@ builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<CreateVendorProfileUseCase>();
 builder.Services.AddScoped<AddItemToCartUseCase>();
 builder.Services.AddScoped<CreateOrderFromCartUseCase>();
+builder.Services.AddScoped<GetProductsUseCase>();
+builder.Services.AddScoped<GetProductByIdUseCase>();
+builder.Services.AddScoped<UpdateProductUseCase>();
+builder.Services.AddScoped<DeleteProductUseCase>();
+builder.Services.AddScoped<GetAllVendorProfilesUseCase>();
+builder.Services.AddScoped<UpdateVendorProfileUseCase>();
+builder.Services.AddScoped<DeleteVendorProfileUseCase>();
+builder.Services.AddScoped<GetCartUseCase>();
+builder.Services.AddScoped<UpdateItemQuantityUseCase>();
+builder.Services.AddScoped<RemoveItemFromCartUseCase>();
+
 
 builder.Services.Configure<JwtSettings>(options =>
 {

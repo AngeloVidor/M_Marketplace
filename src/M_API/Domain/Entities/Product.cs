@@ -35,6 +35,15 @@ namespace Domain.Entities
             CreatedAt = DateTime.UtcNow;
         }
 
+        public void Update(string name, string description, decimal price, int stock, ProductCategory category)
+        {
+            Name = name;
+            Description = description;
+            Price = price;
+            Stock = stock;
+            Category = category;
+        }
+
         public void DecreaseStock(int quantity)
         {
             if (quantity <= 0) throw new ArgumentException("Quantity must be positive");
