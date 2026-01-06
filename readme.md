@@ -5,14 +5,14 @@
 
 ## Features 
 
-✅ **Comprehensive E-commerce Platform** – Built for both B2B and B2C markets
-✅ **Role-Based Access Control** – Secure vendor, customer, and admin experiences
-✅ **Stripe Integration** – Seamless payments with webhooks and Stripe Connect
-✅ **Vendor Onboarding** – Complete vendor profile management with Stripe account linking
-✅ **Cart & Checkout System** – Full shopping cart functionality with order creation
-✅ **Sales Analytics** – Detailed vendor sales reporting and analytics
-✅ **Email Activation** – Secure user registration with email verification
-✅ **RESTful API** – Clean, well-documented API endpoints for all operations
+**Comprehensive E-commerce Platform** – Built for both B2B and B2C markets
+**Role-Based Access Control** – Secure vendor, customer, and admin experiences
+**Stripe Integration** – Seamless payments with webhooks and Stripe Connect
+**Vendor Onboarding** – Complete vendor profile management with Stripe account linking
+**Cart & Checkout System** – Full shopping cart functionality with order creation
+**Sales Analytics** – Detailed vendor sales reporting and analytics
+**Email Activation** – Secure user registration with email verification
+**RESTful API** – Clean, well-documented API endpoints for all operations
 
 ---
 
@@ -203,12 +203,4 @@ Example for SQL Server:
 }
 ```
 
-Example for SQL Server:
-```json
-{
-  "ConnectionStrings": {
-    "Default": "Host=localhost;Database=M_Marketplace;Username=postgres;Password=yourpassword;"
-  }
-}
-```
 
